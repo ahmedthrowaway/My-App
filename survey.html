@@ -1,0 +1,70 @@
+<!-- Ahmed A - SWE645 - Assignment 2 - Spring 2026-->
+<!-- This is the survey.html file from Assignment 1 Part 2 which will be linked from index.html-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Student Survey</title>
+    <style>
+        h1 {
+            color: tomato;
+        }
+        label {
+            color: green;
+        }
+    </style>
+</head>
+
+<body>
+<h1>Student Survey</h1>
+<p style="font-size: small;font-style: italic;">Brought to you by Ahmed A, SWE645 Spring '26</p><br>
+<a href="index.html"> <button>Back to home page</button></a><br><br>
+<form>
+<label>First name <input type="text"></label><br>
+<label>Last name <input type="text"></label><br>
+<label>Street address <input type="text"></label><br>
+<label>City <input type="text"></label><br>
+<label>State <input type="text"></label><br>
+<label>Zip <input type="text"></label><br>
+<label>Telephone number <input type="text"></label><br>
+<label>E-mail <input type="text"></label><br>
+<label>Date of survey <input type="text"></label><br><br>
+
+<p>What did you like most about the campus?</p>
+<label><input type="checkbox">Students</label><br>
+<label><input type="checkbox">Location</label><br>
+<label><input type="checkbox">Campus</label><br>
+<label><input type="checkbox">Atmosphere</label><br>
+<label><input type="checkbox">Dorm rooms</label><br>
+<label><input type="checkbox">Sports</label><br><br>
+
+<p>How did you become interested in the university?</p>
+<label><input type="radio" name="radio">Friends</label><br>
+<label><input type="radio" name="radio">Television</label><br>
+<label><input type="radio" name="radio">Internet</label><br>
+<label><input type="radio" name="radio">Other</label><br><br>
+
+<p>How likely are you to recommend this university to prospective students?</p>
+<select>
+<option>Very likely</option>
+<option>Likely</option>
+<option>Unlikely</option>
+</select>
+<br>
+<br>
+<br>
+
+<label id = 'raffle'>Raffle! Enter at least 10 comma separated numbers ranging from 1 through 100 <input type="text"></label><br><br>
+
+<label>Additional comments <input type="text"></label>
+<br>
+<br>
+<br>
+
+<button type="submit">Submit</button>
+<button type="reset">Cancel</button>
+</form>
+
+</body>
+
+</html>
