@@ -18,6 +18,7 @@ spec:
       containers:
       - name: student-survey
         image: ahmedthrowaway/my-app:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
 
