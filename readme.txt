@@ -1,4 +1,4 @@
-Assignment 2 by Ahmed Apoqis - SWE645 - Spring 2026
+Assignment 2 by Ahmed A - SWE645 - Spring 2026
 ---------------------------------------------------
 
 
