@@ -44,8 +44,8 @@ pipeline {
                     sh '''
 export KUBECONFIG=$KUBECONFIG
 # Apply the deployment and service YAMLs
-kubectl apply -f deployment.yaml
-kubectl apply -f service.yaml
+kubectl apply -f $WORKSPACE/deployment.yaml
+kubectl apply -f $WORKSPACE/service.yaml
 
 # Update the deployment image to the new build tag
 kubectl set image deployment/My-App My-App=$DOCKER_IMAGE:$DOCKER_TAG || true
