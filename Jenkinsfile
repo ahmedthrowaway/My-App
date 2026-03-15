@@ -8,9 +8,9 @@ pipeline {
 
     stages {
 
-        stage('Clone Repository') {
+        stage('Checkout Code') {
             steps {
-                git 'https://github.com/ahmedthrowaway/My-App.git'
+                checkout scm
             }
         }
 
@@ -40,8 +40,8 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
             steps {
-                sh 'kubectl apply -f deployment.yaml'
-                sh 'kubectl apply -f service.yaml'
+                sh "kubectl set image deployment/my-app my-app=$DOCKER_IMAGE:$DOCKER_TAG"
+                sh "kubectl rollout status deployment/my-app"
             }
         }
     }
