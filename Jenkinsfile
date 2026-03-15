@@ -37,24 +37,24 @@ pipeline {
                 sh 'docker push $DOCKER_IMAGE:$DOCKER_TAG'
             }
         }
+	
+	stage('Deploy to Kubernetes') {
+    		steps {
+        		withCredentials([file(credentialsId: 'kubeconfig-id', variable: 'KUBECONFIG')]) {
+            		sh '''
+            		export KUBECONFIG=$KUBECONFIG
+            		# Apply the deployment and service YAMLs
+            		kubectl apply -f $WORKSPACE/deployment.yaml
+            		kubectl apply -f $WORKSPACE/service.yaml
 
-        stage('Deploy to Kubernetes') {
-            steps {
-                withCredentials([file(credentialsId: 'kubeconfig-id', variable: 'KUBECONFIG')]) {
-                    sh '''
-export KUBECONFIG=$KUBECONFIG
-# Apply the deployment and service YAMLs
-kubectl apply -f $WORKSPACE/deployment.yaml
-kubectl apply -f $WORKSPACE/service.yaml
+            		# Update the deployment image to the new build tag
+            		kubectl set image deployment/student-survey student-survey=$DOCKER_IMAGE:$DOCKER_TAG || true
 
-# Update the deployment image to the new build tag
-kubectl set image deployment/My-App My-App=$DOCKER_IMAGE:$DOCKER_TAG || true
-
-# Wait for rollout to complete
-kubectl rollout status deployment/My-App
-'''
-                }
-            }
-        }
+            		# Wait for rollout to complete
+            		kubectl rollout status deployment/student-survey
+            		'''
+        		}
+    		}
+	}	
     }
 }
