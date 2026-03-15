@@ -40,8 +40,20 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
             steps {
-                sh "kubectl set image deployment/my-app my-app=$DOCKER_IMAGE:$DOCKER_TAG"
-                sh "kubectl rollout status deployment/my-app"
+                withCredentials([file(credentialsId: 'kubeconfig-id', variable: 'KUBECONFIG')]) {
+                    sh '''
+export KUBECONFIG=$KUBECONFIG
+# Apply the deployment and service YAMLs
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+
+# Update the deployment image to the new build tag
+kubectl set image deployment/My-App My-App=$DOCKER_IMAGE:$DOCKER_TAG || true
+
+# Wait for rollout to complete
+kubectl rollout status deployment/My-App
+'''
+                }
             }
         }
     }
