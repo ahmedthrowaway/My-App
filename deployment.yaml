@@ -15,8 +15,8 @@ spec:
         app: student-survey
     spec:
       containers:
-      - name: nginx-webserver
-        image: aapoqis/assignment2:latest
+      - name: student-survey
+        image: ahmedthrowaway/my-app:latest
         ports:
         - containerPort: 80
 
