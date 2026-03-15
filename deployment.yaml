@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: student-survey
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: student-survey
+  template:
+    metadata:
+      labels:
+        app: student-survey
+    spec:
+      containers:
+      - name: nginx-webserver
+        image: aapoqis/assignment2:latest
+        ports:
+        - containerPort: 80
+
