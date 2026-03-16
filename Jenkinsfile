@@ -1,3 +1,5 @@
+// Ahmed A - SWE645 - Spring 2026 - This is the Jenkinsfile to build a CI/CD pipeline for Assignment 2
+
 pipeline {
     agent any
 
@@ -27,7 +29,7 @@ pipeline {
                     usernameVariable: 'DOCKER_USER',
                     passwordVariable: 'DOCKER_PASS'
                 )]) {
-                    sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
+                    sh 'docker login -u $DOCKER_USER -p $DOCKER_PASS'
                 }
             }
         }
@@ -43,14 +45,11 @@ pipeline {
         		withCredentials([file(credentialsId: 'kubeconfig-id', variable: 'KUBECONFIG')]) {
             		sh '''
             		export KUBECONFIG=$KUBECONFIG
-            		# Apply the deployment and service YAMLs
             		kubectl apply -f $WORKSPACE/deployment.yaml
             		kubectl apply -f $WORKSPACE/service.yaml
 
-            		# Update the deployment image to the new build tag
             		kubectl set image deployment/student-survey student-survey=$DOCKER_IMAGE:$DOCKER_TAG || true
 
-            		# Wait for rollout to complete
             		kubectl rollout status deployment/student-survey
             		'''
         		}
