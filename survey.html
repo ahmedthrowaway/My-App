@@ -1,70 +1,375 @@
-<!-- Ahmed A - SWE645 - Assignment 2 - Spring 2026-->
-<!-- This is the survey.html file from Assignment 1 Part 2 which will be linked from index.html-->
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <title>Student Survey</title>
-    <style>
-        h1 {
-            color: tomato;
-        }
-        label {
-            color: green;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Survey</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --accent: #0f766e;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #dbe3ef;
+      --shadow: 0 18px 45px rgba(37, 99, 235, 0.12);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.10), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(15, 118, 110, 0.12), transparent 30%),
+        linear-gradient(180deg, #eef4ff 0%, var(--bg) 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .survey-card {
+      background: var(--card);
+      border: 1px solid rgba(219, 227, 239, 0.9);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white;
+      padding: 32px;
+    }
+
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: 2.2rem;
+      letter-spacing: 0.3px;
+    }
+
+    .hero p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.98rem;
+    }
+
+    .content {
+      padding: 28px;
+    }
+
+    .toolbar {
+      margin-bottom: 20px;
+    }
+
+    .back-link {
+      display: inline-block;
+      text-decoration: none;
+      color: var(--primary);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .back-link:hover {
+      color: var(--primary-dark);
+    }
+
+    form {
+      display: grid;
+      gap: 22px;
+    }
+
+    .section {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      background: #fbfdff;
+    }
+
+    .section h2 {
+      margin: 0 0 16px;
+      font-size: 1.1rem;
+      color: #0f172a;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px 18px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label,
+    .legend {
+      font-weight: 700;
+      color: #334155;
+      font-size: 0.95rem;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="date"],
+    textarea,
+    select {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 0.98rem;
+      color: var(--text);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+      outline: none;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .options {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-weight: 600;
+      color: #334155;
+    }
+
+    .option input {
+      accent-color: var(--primary);
+      transform: scale(1.15);
+    }
+
+    .helper {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-top: -2px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 12px 18px;
+      font-size: 0.98rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.15s ease, box-shadow 0.2s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      opacity: 0.97;
+    }
+
+    .primary-btn {
+      color: white;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      box-shadow: 0 10px 22px rgba(37, 99, 235, 0.22);
+    }
+
+    .secondary-btn {
+      color: #1e293b;
+      background: #e8eef9;
+    }
+
+    .footer-note {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 720px) {
+      .hero {
+        padding: 26px 22px;
+      }
+
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+
+      .content {
+        padding: 20px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
-
 <body>
-<h1>Student Survey</h1>
-<p style="font-size: small;font-style: italic;">Brought to you by Ahmed A, SWE645 Spring '26</p><br>
-<a href="index.html"> <button>Back to home page</button></a><br><br>
-<form>
-<label>First name <input type="text"></label><br>
-<label>Last name <input type="text"></label><br>
-<label>Street address <input type="text"></label><br>
-<label>City <input type="text"></label><br>
-<label>State <input type="text"></label><br>
-<label>Zip <input type="text"></label><br>
-<label>Telephone number <input type="text"></label><br>
-<label>E-mail <input type="text"></label><br>
-<label>Date of survey <input type="text"></label><br><br>
+  <div class="container">
+    <div class="survey-card">
+      <div class="hero">
+        <h1>Student Survey</h1>
+        <p>Brought to you by Ahmed A, SWE645 Spring '26</p>
+      </div>
 
-<p>What did you like most about the campus?</p>
-<label><input type="checkbox">Students</label><br>
-<label><input type="checkbox">Location</label><br>
-<label><input type="checkbox">Campus</label><br>
-<label><input type="checkbox">Atmosphere</label><br>
-<label><input type="checkbox">Dorm rooms</label><br>
-<label><input type="checkbox">Sports</label><br><br>
+      <div class="content">
+        <div class="toolbar">
+          <a class="back-link" href="index.html">← Back to home page</a>
+        </div>
 
-<p>How did you become interested in the university?</p>
-<label><input type="radio" name="radio">Friends</label><br>
-<label><input type="radio" name="radio">Television</label><br>
-<label><input type="radio" name="radio">Internet</label><br>
-<label><input type="radio" name="radio">Other</label><br><br>
+        <form>
+          <section class="section">
+            <h2>Your Information</h2>
+            <div class="grid">
+              <div class="field">
+                <label for="firstName">First name</label>
+                <input id="firstName" type="text" placeholder="Enter your first name" />
+              </div>
 
-<p>How likely are you to recommend this university to prospective students?</p>
-<select>
-<option>Very likely</option>
-<option>Likely</option>
-<option>Unlikely</option>
-</select>
-<br>
-<br>
-<br>
+              <div class="field">
+                <label for="lastName">Last name</label>
+                <input id="lastName" type="text" placeholder="Enter your last name" />
+              </div>
 
-<label id = 'raffle'>Raffle! Enter at least 10 comma separated numbers ranging from 1 through 100 <input type="text"></label><br><br>
+              <div class="field full">
+                <label for="street">Street address</label>
+                <input id="street" type="text" placeholder="123 Main Street" />
+              </div>
 
-<label>Additional comments <input type="text"></label>
-<br>
-<br>
-<br>
+              <div class="field">
+                <label for="city">City</label>
+                <input id="city" type="text" placeholder="Enter your city" />
+              </div>
 
-<button type="submit">Submit</button>
-<button type="reset">Cancel</button>
-</form>
+              <div class="field">
+                <label for="state">State</label>
+                <input id="state" type="text" placeholder="Enter your state" />
+              </div>
 
+              <div class="field">
+                <label for="zip">Zip</label>
+                <input id="zip" type="text" placeholder="Zip code" />
+              </div>
+
+              <div class="field">
+                <label for="phone">Telephone number</label>
+                <input id="phone" type="tel" placeholder="(555) 555-5555" />
+              </div>
+
+              <div class="field">
+                <label for="email">E-mail</label>
+                <input id="email" type="email" placeholder="name@example.com" />
+              </div>
+
+              <div class="field">
+                <label for="surveyDate">Date of survey</label>
+                <input id="surveyDate" type="date" />
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <h2>Campus Experience</h2>
+            <div class="field full">
+              <div class="legend">What did you like most about the campus?</div>
+              <div class="options">
+                <label class="option"><input type="checkbox" /> Students</label>
+                <label class="option"><input type="checkbox" /> Location</label>
+                <label class="option"><input type="checkbox" /> Campus</label>
+                <label class="option"><input type="checkbox" /> Atmosphere</label>
+                <label class="option"><input type="checkbox" /> Dorm rooms</label>
+                <label class="option"><input type="checkbox" /> Sports</label>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <h2>How You Heard About Us</h2>
+            <div class="field full">
+              <div class="legend">How did you become interested in the university?</div>
+              <div class="options">
+                <label class="option"><input type="radio" name="interest" /> Friends</label>
+                <label class="option"><input type="radio" name="interest" /> Television</label>
+                <label class="option"><input type="radio" name="interest" /> Internet</label>
+                <label class="option"><input type="radio" name="interest" /> Other</label>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <h2>Recommendation</h2>
+            <div class="field full">
+              <label for="recommend">How likely are you to recommend this university to prospective students?</label>
+              <select id="recommend">
+                <option>Very likely</option>
+                <option>Likely</option>
+                <option>Unlikely</option>
+              </select>
+            </div>
+          </section>
+
+          <section class="section">
+            <h2>Raffle & Comments</h2>
+            <div class="grid">
+              <div class="field full">
+                <label for="raffle">Raffle! Enter at least 10 comma-separated numbers ranging from 1 through 100</label>
+                <input id="raffle" type="text" placeholder="e.g., 4, 8, 15, 16, 23, 42, ..." />
+                <div class="helper">Use commas to separate each number.</div>
+              </div>
+
+              <div class="field full">
+                <label for="comments">Additional comments</label>
+                <textarea id="comments" placeholder="Share anything else about your experience..."></textarea>
+              </div>
+            </div>
+          </section>
+
+          <div class="actions">
+            <button class="secondary-btn" type="reset">Cancel</button>
+            <button class="primary-btn" type="submit">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </body>
-
 </html>
