@@ -2,7 +2,7 @@ Assignment 2 by Ahmed A - SWE645 - Spring 2026
 ---------------------------------------------------
 
 
-A) Containerization:
+A) Containerizations:
 	Preface - Most docker commands requrie root permissions, so you must usually preface any docker command with "sudo". For example, "sudo docker images" 
 	Step 1. Navigate to working directory with source files, create a dockerfile using "vim Dockerfile"
 	Step 2. With the Dockerfile open using Vim (or any text editing application of your choosing), enter the following:
