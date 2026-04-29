@@ -1,3 +1,4 @@
+# Assignment 3 by Ahmed A - SWE645 - Spring 2026 - python sql model file
 from typing import Optional
 from sqlmodel import Field, SQLModel
 

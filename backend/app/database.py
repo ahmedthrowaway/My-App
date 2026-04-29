@@ -1,3 +1,4 @@
+# Assignment 3 by Ahmed A - SWE645 - Spring 2026 - python file to handle database (uses sqlite)
 import os
 from sqlmodel import SQLModel, Session, create_engine
 

@@ -1,3 +1,4 @@
+// Assignment 3 by Ahmed A - SWE645 - Spring 2026 - Main react app code
 import { useEffect, useState } from "react";
 
 const API_BASE = "http://52.5.69.117:30080";

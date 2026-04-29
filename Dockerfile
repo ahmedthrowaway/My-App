@@ -1,3 +1,4 @@
+# Assignment 3 by Ahmed A - SWE645 - Spring 2026 - Dockerfile to create two docker images: front end and for back end
 # =========================
 # FRONTEND BUILD STAGE
 # =========================

@@ -1,4 +1,4 @@
-Assignment 2 by Ahmed A - SWE645 - Spring 2026
+Assignment 3 by Ahmed A - SWE645 - Spring 2026 - App documentation
 ---------------------------------------------------
 
 
