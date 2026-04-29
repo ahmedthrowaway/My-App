@@ -35,8 +35,7 @@ function HomePage({ onGoToSurvey, onViewSurveys }) {
           <div className="eyebrow">SWE645 • Assignment 3 • Spring 2026</div>
           <h1>Welcome to Ahmed&apos;s Homepage</h1>
           <p>
-            This React frontend connects to the survey backend and lets users
-            create, view, update, and delete surveys.
+            Make sure you leave us a survey!
           </p>
         </header>
 
@@ -46,24 +45,6 @@ function HomePage({ onGoToSurvey, onViewSurveys }) {
             <p>
               Submit a new survey or view all saved survey records from the database.
             </p>
-          </section>
-
-          <section className="section">
-            <h2>Quick Highlights</h2>
-            <div className="highlight-grid">
-              <div className="highlight">
-                <div className="highlight-title">Frontend</div>
-                <p>React + Vite</p>
-              </div>
-              <div className="highlight">
-                <div className="highlight-title">Backend</div>
-                <p>FastAPI + database persistence</p>
-              </div>
-              <div className="highlight">
-                <div className="highlight-title">Features</div>
-                <p>Create, view, update, and delete surveys</p>
-              </div>
-            </div>
           </section>
 
           <section className="cta-row">
