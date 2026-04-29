@@ -1,24 +1,29 @@
-// Ahmed A - SWE645 - Spring 2026 - This is the Jenkinsfile to build a CI/CD pipeline for Assignment 2
-
 pipeline {
     agent any
 
+    options {
+        skipDefaultCheckout(true)
+    }
+
     environment {
-        DOCKER_IMAGE = "ahmedthrowaway/my-app"
-        DOCKER_TAG = "${BUILD_NUMBER}"
+        FRONTEND_IMAGE = "ahmedthrowaway/my-app-frontend"
+        BACKEND_IMAGE  = "ahmedthrowaway/my-app-backend"
+        DOCKER_TAG     = "${BUILD_NUMBER}"
     }
 
     stages {
-
         stage('Checkout Code') {
             steps {
                 checkout scm
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Build Docker Images') {
             steps {
-                sh 'docker build -t $DOCKER_IMAGE:$DOCKER_TAG .'
+                sh '''
+                docker build --target frontend -t $FRONTEND_IMAGE:$DOCKER_TAG .
+                docker build --target backend  -t $BACKEND_IMAGE:$DOCKER_TAG .
+                '''
             }
         }
 
@@ -29,31 +34,39 @@ pipeline {
                     usernameVariable: 'DOCKER_USER',
                     passwordVariable: 'DOCKER_PASS'
                 )]) {
-                    sh 'docker login -u $DOCKER_USER -p $DOCKER_PASS'
+                    sh '''
+                    echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                    '''
                 }
             }
         }
 
-        stage('Push Docker Image') {
+        stage('Push Docker Images') {
             steps {
-                sh 'docker push $DOCKER_IMAGE:$DOCKER_TAG'
+                sh '''
+                docker push $FRONTEND_IMAGE:$DOCKER_TAG
+                docker push $BACKEND_IMAGE:$DOCKER_TAG
+                '''
             }
         }
-	
-	stage('Deploy to Kubernetes') {
-    		steps {
-        		withCredentials([file(credentialsId: 'kubeconfig-id', variable: 'KUBECONFIG')]) {
-            		sh '''
-            		export KUBECONFIG=$KUBECONFIG
-            		kubectl apply -f $WORKSPACE/deployment.yaml
-            		kubectl apply -f $WORKSPACE/service.yaml
 
-            		kubectl set image deployment/student-survey student-survey=$DOCKER_IMAGE:$DOCKER_TAG || true
+        stage('Deploy to Kubernetes') {
+            steps {
+                withCredentials([file(credentialsId: 'kubeconfig-id', variable: 'KUBECONFIG')]) {
+                    sh '''
+                    kubectl apply -f k8s/frontend-deployment.yaml
+                    kubectl apply -f k8s/frontend-service.yaml
+                    kubectl apply -f k8s/backend-deployment.yaml
+                    kubectl apply -f k8s/backend-service.yaml
 
-            		kubectl rollout status deployment/student-survey
-            		'''
-        		}
-    		}
-	}	
+                    kubectl set image deployment/student-survey-frontend frontend=$FRONTEND_IMAGE:$DOCKER_TAG || true
+                    kubectl set image deployment/student-survey-backend backend=$BACKEND_IMAGE:$DOCKER_TAG || true
+
+                    kubectl rollout status deployment/student-survey-frontend
+                    kubectl rollout status deployment/student-survey-backend
+                    '''
+                }
+            }
+        }
     }
 }

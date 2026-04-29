@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: student-survey-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: student-survey-backend
+  template:
+    metadata:
+      labels:
+        app: student-survey-backend
+    spec:
+      containers:
+        - name: backend
+          image: ahmedthrowaway/my-app-backend:latest
+          ports:
+            - containerPort: 8000
+          env:
+            - name: DATABASE_URL
+              value: "sqlite:////app/data/surveys.db"
+          volumeMounts:
+            - name: sqlite-storage
+              mountPath: /app/data
+      volumes:
+        - name: sqlite-storage
+          hostPath:
+            path: /data/student-survey
+            type: DirectoryOrCreate
