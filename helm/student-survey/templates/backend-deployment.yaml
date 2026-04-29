@@ -14,17 +14,17 @@ spec:
     spec:
       containers:
         - name: backend
-          image: ahmedthrowaway/my-app-backend:latest
+          image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
           ports:
             - containerPort: 8000
           env:
             - name: DATABASE_URL
-              value: "sqlite:////app/data/surveys.db"
+              value: "{{ .Values.backend.databaseUrl }}"
           volumeMounts:
             - name: sqlite-storage
               mountPath: /app/data
       volumes:
         - name: sqlite-storage
           hostPath:
-            path: /data/student-survey
+            path: "{{ .Values.backend.sqliteHostPath }}"
             type: DirectoryOrCreate

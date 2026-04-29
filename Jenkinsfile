@@ -51,22 +51,18 @@ pipeline {
         }
 
         stage('Deploy to Kubernetes') {
-            steps {
-                withCredentials([file(credentialsId: 'kubeconfig-id', variable: 'KUBECONFIG')]) {
-                    sh '''
-                    kubectl apply -f k8s/frontend-deployment.yaml
-                    kubectl apply -f k8s/frontend-service.yaml
-                    kubectl apply -f k8s/backend-deployment.yaml
-                    kubectl apply -f k8s/backend-service.yaml
+	    steps {
+		withCredentials([file(credentialsId: 'kubeconfig-id', variable: 'KUBECONFIG')]) {
+		    sh '''
+		    helm upgrade --install student-survey ./helm/student-survey \
+		      --set frontend.image.tag=$DOCKER_TAG \
+		      --set backend.image.tag=$DOCKER_TAG
 
-                    kubectl set image deployment/student-survey-frontend frontend=$FRONTEND_IMAGE:$DOCKER_TAG || true
-                    kubectl set image deployment/student-survey-backend backend=$BACKEND_IMAGE:$DOCKER_TAG || true
-
-                    kubectl rollout status deployment/student-survey-frontend
-                    kubectl rollout status deployment/student-survey-backend
-                    '''
-                }
-            }
-        }
+		    kubectl rollout status deployment/student-survey-frontend
+		    kubectl rollout status deployment/student-survey-backend
+		    '''
+		}
+	    }
+	}
     }
 }

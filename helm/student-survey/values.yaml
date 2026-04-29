@@ -1,0 +1,15 @@
+frontend:
+  image:
+    repository: ahmedthrowaway/my-app-frontend
+    tag: latest
+  service:
+    nodePort: 31011
+
+backend:
+  image:
+    repository: ahmedthrowaway/my-app-backend
+    tag: latest
+  service:
+    nodePort: 30080
+  databaseUrl: "sqlite:////app/data/surveys.db"
+  sqliteHostPath: "/data/student-survey"
